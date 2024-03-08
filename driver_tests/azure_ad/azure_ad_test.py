@@ -1,6 +1,6 @@
-from qai_jamf.connector import JAMFConnector 
-from qai_jamf.driver import JAMFDriver 
-from jamf_test_cases import TEST_CASES as test_cases 
+from qai_msgraph.connector import AzureGraphConnector as PlatformConnector 
+from qai_msgraph.driver_azuread import AzureADGraphDriver as PlatformDriver 
+from azure_ad_test_cases import TEST_CASES as test_cases 
 from typing import Any
 from masala.drivers import BaseConnector, BaseDriver
 import os
@@ -21,14 +21,17 @@ class TestReports:
     def get_reports(self):
         aggregator = TestAggregator()
         results = aggregator.aggregate_test_cases(test_cases=test_cases , driver=self.driver)
-        print("HELLO")
+        total_test_cases = len(results["results"])
+        failed_test_cases = results["failed_cases"]
+        print(f"Total {total_test_cases} test cases run.")
+        print(f"Failed test cases {failed_test_cases}")
+        print("SUIT ENDS")
 
 if __name__ == '__main__':
     configuration = {
     }
 
-
-    tr = TestReports(configuration=configuration, connector_type=JAMFConnector, driver_type=JAMFDriver) # type: ignore
+    tr = TestReports(configuration=configuration, connector_type=PlatformConnector, driver_type=PlatformDriver) # type: ignore
     tr.get_reports()
 
 print("##### THE END ######")

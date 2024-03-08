@@ -19,8 +19,14 @@ class TestExecutorAnnotated(TestExecutor):
     
     def __init__(self) -> None:
         super().__init__()
-    
-    def run_test(self, test_case_id: str, test_case_details: dict[str, Any], driver: BaseDriver) -> str:
+
+    def generate_search_response(self, result: str, generated_query: str = "") -> dict[str, str]:
+        return {
+            "result": result,
+            "generated_query": generated_query,
+        }
+
+    def run_test(self, test_case_id: str, test_case_details: dict[str, Any], driver: BaseDriver) -> dict[str, str]:
         
         try:
             # Extract test case details
@@ -30,8 +36,22 @@ class TestExecutorAnnotated(TestExecutor):
             entity = test_case_details["entity"]
             followup_filter = None 
             followup_type, followup_relationship = None, ""
+            
+            show_results = test_case_details.get("show_results") 
+            query_generator_callback = test_case_details.get("query_generator_callback")
+            generated_query = ""
 
             followups = test_case_details.get("followups")
+            
+            if query_generator_callback:
+                try:
+                    platform_data = driver.get_platform_data(entity)
+                except ValueError as err:
+                    print(f"Exception occurred while generating outbound query syntax. {test_case_id} FAILED.")
+                    return self.generate_search_response(result=f"Failed. Reason: {err}")
+
+                field_map = platform_data.mapping
+            
             if followups:
                 followup_filter = followups.get("followup_filter") 
                 followup_type = followups.get("type")
@@ -39,7 +59,7 @@ class TestExecutorAnnotated(TestExecutor):
 
         except Exception as err:
             print(f"Exception occurred while fetching the test_case details. {test_case_id} FAILED.")
-            return f"Failed. Reason:{err}"
+            return self.generate_search_response(result=f"Failed. Reason:{err}")
 
         sub_query_id = SubQueryId(label=followup_relationship, relationship=followup_relationship)
         observable_annotation = SubQuery(entity_type=followup_type, search=followup_filter, annotations=[], id=sub_query_id) # type: ignore
@@ -53,17 +73,22 @@ class TestExecutorAnnotated(TestExecutor):
                 resultset = entity.filter(search=top_level_filter & time_range_filter, driver=driver).annotate(observable_annotation)
             else:
                 resultset = entity.filter(search=top_level_filter & time_range_filter, driver=driver)
+                if query_generator_callback: 
+                    generated_query = query_generator_callback(search=top_level_filter, field_map=field_map)
 
             query_results = resultset.search_results
+            
+            if show_results:
+                print(query_results)
+        
         except Exception as err:
             print(f"Exception occurred while searching. {test_case_id} FAILED.")
-            return f"Failed. Reason: {err}"
-
+            return self.generate_search_response(result=f"Failed. Reason: {err}")
 
         expected_passed = results_expected and len(query_results) > 0
         notexpected_passed = not results_expected and len(query_results) == 0
 
-        return 'Passed' if (expected_passed or notexpected_passed) else 'Failed'
+        return self.generate_search_response(result='Passed' if (expected_passed or notexpected_passed) else 'Failed', generated_query=generated_query)
         
 
 class TestAggregator:
@@ -71,11 +96,11 @@ class TestAggregator:
     def __init__(self) -> None:
         self.annotated_executor = TestExecutorAnnotated()
 
-    def get_failed_test_cases_from_results(self, results: dict[str, str]) -> list[str]:
+    def get_failed_test_cases_from_results(self, results: dict[str, dict[str, str]]) -> list[str]:
 
         failed_cases = []
         for id, result in results.items():
-            if 'failed' in result.lower():
+            if 'failed' in result['result'].lower():
                 failed_cases.append(id)
             
         return failed_cases
