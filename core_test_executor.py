@@ -39,7 +39,10 @@ class TestExecutorAnnotated(TestExecutor):
             
             show_results = test_case_details.get("show_results") 
             query_generator_callback = test_case_details.get("query_generator_callback")
+            callback_params = test_case_details.get("callback_params", {}) 
             generated_query = ""
+
+            callback_params.update({"search": top_level_filter})
 
             followups = test_case_details.get("followups")
             
@@ -51,6 +54,7 @@ class TestExecutorAnnotated(TestExecutor):
                     return self.generate_search_response(result=f"Failed. Reason: {err}")
 
                 field_map = platform_data.mapping
+                callback_params.update({"field_map": field_map})
             
             if followups:
                 followup_filter = followups.get("followup_filter") 
@@ -73,8 +77,9 @@ class TestExecutorAnnotated(TestExecutor):
                 resultset = entity.filter(search=top_level_filter & time_range_filter, driver=driver).annotate(observable_annotation)
             else:
                 resultset = entity.filter(search=top_level_filter & time_range_filter, driver=driver)
-                if query_generator_callback: 
-                    generated_query = query_generator_callback(search=top_level_filter, field_map=field_map)
+            
+            if query_generator_callback: 
+                generated_query = query_generator_callback(**callback_params)
 
             query_results = resultset.search_results
             
