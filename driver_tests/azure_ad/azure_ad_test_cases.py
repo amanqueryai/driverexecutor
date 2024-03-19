@@ -142,7 +142,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
     },
 
     "013": {
-        "filter": S(name__in={'Emily@queryengineering.onmicrosoft.com', 'Barbara@queryengineering.onmicrosoft.com'}),
+        "filter": S(name__in=frozenset(['Emily@queryengineering.onmicrosoft.com', 'Barbara@queryengineering.onmicrosoft.com'])),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
@@ -151,7 +151,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "query_generator_callback": translate_graph_search, 
     },
     "014": {
-        "filter": S(name__in={'emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'}),
+        "filter": S(name__in=frozenset(['emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'])),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
@@ -160,7 +160,8 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "query_generator_callback": translate_graph_search, 
     },
     "015": {
-        "filter": S(name__iin={'emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'}),
+        # "filter": S(name__iin=frozenset(['emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'])),
+        "filter": S(name__iin=frozenset(['emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'])),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
@@ -272,7 +273,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "query_generator_callback": translate_graph_search, 
     },
     
-    "029": {
+    "027": {
         "filter": S(email_addr__startswith="barbara") | S(name__startswith="Emily"), 
         "time_range_filter": S(),
         "expected": True,
@@ -281,7 +282,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False, 
         "query_generator_callback": translate_graph_search, 
     },
-    "030": {
+    "028": {
         "filter": S(email_addr__gte="Emily"), 
         "time_range_filter": S(),
         "expected": True,
@@ -293,7 +294,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
 
 
     # Device related searches
-    "031": {
+    "029": {
         "filter": S(), 
         "time_range_filter": S(),
         "expected": True,
@@ -302,7 +303,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False, 
         "query_generator_callback": translate_graph_search, 
     },
-    "032": {
+    "030": {
         "filter": S(hostname__exact="nbalakrishna-pc"), 
         "time_range_filter": S(),
         "expected": True,
@@ -311,7 +312,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False, 
         "query_generator_callback": translate_graph_search, 
     },
-    "033": {
+    "031": {
         "filter": S(hostname__iexact="nbalaKRishna-PC"), 
         "time_range_filter": S(),
         "expected": True,
@@ -320,8 +321,26 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False, 
         "query_generator_callback": translate_graph_search, 
     },
-    "034": {
+    "032": {
         "filter": S(name__exact="b441d933-2ce2-4b88-94c0-1ff585506cd1"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+        "query_generator_callback": translate_graph_search, 
+    },
+    "033": {
+        "filter": S(uid__exact="24c12ad8-96c5-4c7b-b6f5-7107c2051abf"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+        "query_generator_callback": translate_graph_search, 
+    },
+    "034": {
+        "filter": S(name__exact="b05b1337-90b2-4517-bbf3-1952c2d4c185"), 
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
@@ -354,7 +373,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "expected": True,
         "entity": Device,
         "followups": {},
-        "show_results": False, 
+        "show_results": True, 
         "query_generator_callback": translate_graph_search, 
     },
     "038": {
@@ -376,7 +395,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "query_generator_callback": translate_graph_search, 
     },
     "040": {
-        "filter": ~S(hostname__exact="nbalakrishna-pc"), 
+        "filter": ~S(hostname__exact="VM2-Windows10"), 
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
@@ -415,7 +434,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
     "043": {
         "filter": S(), 
         "time_range_filter": time_range_filter,
-        "expected": False,
+        "expected": True,
         "entity": Authentication,
         "followups": {
             "followup_filter": S(type_id__exact=Observable.TypeId.USER_NAME) & S(value__exact="dummyboy@queryengineering.onmicrosoft.com"),
@@ -426,15 +445,33 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "query_generator_callback": translate_graph_search, 
     },
 
-
-    # Email related searches 
     "044": {
-        "filter": S(), 
+        "filter": S(is_compliant__exact=False), 
         "time_range_filter": S(),
         "expected": True,
-        "entity": Email,
+        "entity": Device,
         "followups": {},
-        "show_results": True, 
-        # "query_generator_callback": translate_kql_search, 
+        "show_results": False, 
+        "query_generator_callback": translate_graph_search, 
     },
+    "045": {
+        "filter": S(name__isnull=False), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+        "query_generator_callback": translate_graph_search, 
+    },
+    "046": {
+        # "filter": S(name__iin=frozenset(['emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'])),
+        "filter": S(name__iin={'emily@queryengineering.onmicrosoft.com', 'barbara@queryengineering.onmicrosoft.com'}),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": User,
+        "followups": {},
+        "show_results": False, 
+        "query_generator_callback": translate_graph_search, 
+    },
+
 } 

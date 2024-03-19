@@ -81,6 +81,10 @@ class TestExecutorAnnotated(TestExecutor):
             if query_generator_callback: 
                 generated_query = query_generator_callback(**callback_params)
 
+            if show_results:
+                # Stop here and check if any break points are requierd in the main code
+                print(f"About to run the testcase {test_case_id}")
+            
             query_results = resultset.search_results
             
             if show_results:
@@ -88,7 +92,7 @@ class TestExecutorAnnotated(TestExecutor):
         
         except Exception as err:
             print(f"Exception occurred while searching. {test_case_id} FAILED.")
-            return self.generate_search_response(result=f"Failed. Reason: {err}")
+            return self.generate_search_response(result=f"Failed. Reason: {err}", generated_query=generated_query)
 
         expected_passed = results_expected and len(query_results) > 0
         notexpected_passed = not results_expected and len(query_results) == 0
@@ -121,15 +125,3 @@ class TestAggregator:
             'failed_cases': self.get_failed_test_cases_from_results(results=results)
         } 
     
-
-
-# Intune
- 
-# failed_cases = [k for k, v in test_results.items() if 'failed' in v]
-# if failed_cases:
-#     print(f"FAILED CASES: {failed_cases}")
-# else: print("All test cases PASSED.")
-
-
-# print("##### THE END ######")
-
