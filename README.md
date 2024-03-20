@@ -25,8 +25,12 @@ The tool has certain gaps which will be implemented eventually and soon.
 - **callback_params** (Optional): Parameters that the query generator callback accepts. These paramters will be unpacked by the core test case executor.
 
 ### Example test case
+    time_range_filter = S(time__gte=datetime.datetime(2024, 3, 6, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)) & S(
+        time__lte=datetime.datetime(
+            2024, 3, 7, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)
+    )
     "test_case_id": {
-        "filter": S(), 
+        "filter": ~S(hostname__exact="VM2-Windows10"), 
         "time_range_filter": time_range_filter,
         "expected": True,
         "entity": Authentication,
@@ -37,4 +41,5 @@ The tool has certain gaps which will be implemented eventually and soon.
         },
         "show_results": False, 
         "query_generator_callback": translate_graph_search, 
+        "callback_params": {},
     },
