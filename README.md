@@ -8,7 +8,7 @@ The tool supports you declare your test case with:
 The tool has certain gaps which will be implemented eventually and soon.
 - Support scaffolding to generate basic test files for the new drivers. Currently, you might have to copy `driver_name_test.py` and `driver_name_test_cases.py` file from other drivers and replace your credentials.
 - The tool has missing environment configuration. In order to run the tool, you might have to keep the virtual environment active for the driver that is being tested from `masala` repository.
-- Though boolean flags help in understanding the results, it is often required to check the returned results explicitly. Hence, a robust mechanism for verification of the results is not in place currently. 
+- Though boolean flags help in knowing if the results were received, it is often required to check the returned what was returned as the. Hence, a robust mechanism for verification of the results is not in place currently. 
 
 ### Test case parameters: 
 
