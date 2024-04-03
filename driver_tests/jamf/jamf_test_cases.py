@@ -18,21 +18,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "001": {
         "filter": S(name__contains="MAhesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "002": {
         "filter": S(name__icontains="MAhesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     
     "003": {
@@ -40,21 +43,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "004": {
         "filter": S(email_addr__contains="MAhesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "005": {
         "filter": S(email_addr__icontains="MAhesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     
     "006": {
@@ -62,21 +68,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "007": {
         "filter": S(email_addr__exact="MAhesh@query.ai"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "008": {
         "filter": S(email_addr__iexact="MAhesh@query.ai"),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
 
     "009": {
@@ -84,21 +93,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "010": {
         "filter": S(email_addr__startswith="MAhesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "011": {
         "filter": S(email_addr__istartswith="MAhesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     
     "012": {
@@ -106,21 +118,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "013": {
         "filter": S(email_addr__endswith="query.aI"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "014": {
         "filter": S(email_addr__iendswith="QUERY.AI"),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": True, 
     },
     
     "015": {
@@ -128,28 +143,32 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "016": {
         "filter": S(email_addr__startswith="mahesh") | S(email_addr__endswith="query.ai"),
         "time_range_filter": S(),
         "expected": True,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "017": {
         "filter": S(email_addr__exact="query.ai") & S(email_addr__endswith="query.ai"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "018": {
         "filter": S(email_addr__startswith="MAhesh") | S(email_addr__endswith="Query.ai"),
         "time_range_filter": S(),
         "expected": False,
         "entity": User,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
 
     # # Device searches 
@@ -158,21 +177,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "020": {
         "filter": S(name__contains="Mahesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "021": {
         "filter": S(name__icontains="MAhesH"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
 
     "022": {
@@ -180,21 +202,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "023": {
         "filter": S(hostname__contains="Mahesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "024": {
         "filter": S(hostname__icontains="MAhesH"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     
     "025": {
@@ -202,21 +227,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "026": {
         "filter": S(hostname__exact="mahesh-MPB"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "027": {
         "filter": S(hostname__iexact="MAhesH-MPB"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     
     "028": {
@@ -224,21 +252,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "029": {
         "filter": S(hostname__startswith="mahesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "030": {
         "filter": S(hostname__istartswith="MAhesH"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
 
     "031": {
@@ -246,21 +277,24 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "032": {
         "filter": S(hostname__endswith="mpb"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "033": {
         "filter": S(hostname__iendswith="MPb"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
 
     "034": {
@@ -268,56 +302,64 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "035": {
         "filter": S(hostname__endswith="mpb") & S(hostname__istartswith="Mahesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "036": {
         "filter": S(hostname__endswith="mpb") | S(hostname__istartswith="Mahesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "037": {
         "filter": S(hostname__endswith="mpb") | S(hostname__istartswith="ahesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "038": {
         "filter": S(S(hostname__endswith="mpb") | S(hostname__istartswith="ahesh")) | S(hostname__endswith="MPB"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "039": {
         "filter": S(S(hostname__endswith="mpb") | S(hostname__istartswith="ahesh")) | S(hostname__endswith="MPb"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "040": {
         "filter": S(S(hostname__endswith="mpb") | S(hostname__istartswith="ahesh")) | S(hostname__iendswith="MPb"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "041": {
         "filter": S(S(hostname__endswith="mpb") | S(hostname__istartswith="ahesh")) | ~S(hostname__endswith="MPb"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
 
     "042": {
@@ -325,14 +367,16 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "043": {
         "filter": ~S(hostname__exact="Mahesh-MB"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {}, 
+        "show_results": False,
     },
     
     "044": {
@@ -340,14 +384,16 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "045": {
         "filter": S(hostname__lte="z"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     
     "046": {
@@ -355,34 +401,89 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "047": {
         "filter": S(ip__exact="192.168.1.10") | S(hostname__startswith="Mahesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "048": {
         "filter": S(ip__exact="192.168.1.10") & S(hostname__startswith="mahesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "049": {
         "filter": S(ip__exact="192.168.1.10") & S(hostname__startswith="Mahesh"),
         "time_range_filter": S(),
         "expected": True,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
     },
     "050": {
         "filter": S(ip__exact="192.168.1.1") | S(hostname__istartswith="ahesh"),
         "time_range_filter": S(),
         "expected": False,
         "entity": Device,
-        "followups": {} 
+        "followups": {},
+        "show_results": False, 
+    },
+    "051": {
+        "filter": S(ip__exact="192.168.1.1") | ~S(hostname__exact="Mahesh-MB"),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+    },
+    "052": {
+        "filter": S(ip__exact="192.168.1.1") & ~S(hostname__exact="Mahesh-MPB"),
+        "time_range_filter": S(),
+        "expected": False,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+    },
+    
+    "053": {
+        "filter": S(ip__in={"192.168.1.1", "1.1.1.1"}), 
+        "time_range_filter": S(),
+        "expected": False,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+    },
+    
+    "054": {
+        "filter": S(ip__in={"192.168.1.10", "1.1.1.1"}), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+    },
+    "055": {
+        "filter": S(hostname__in={"Mahesh-MPB"}), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
+    },
+    "056": {
+        "filter": S(hostname__iin={"Mahesh-MPB", "Aman-Macbook Pro"}), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False, 
     },
 } 

@@ -15,12 +15,14 @@ from core_test_executor import TestAggregator
 
 class TestReports:
     def __init__(self, configuration: dict[str, Any], connector_type: BaseConnector, driver_type: BaseDriver) -> None:
-        connector = connector_type(**configuration) # type: ignore 
-        self.driver = driver_type(connector) # type: ignore 
+        self.connector_type = connector_type
+        self.driver_type = driver_type
+        self.credentials = configuration
 
     def get_reports(self):
         aggregator = TestAggregator()
-        results = aggregator.aggregate_test_cases(test_cases=test_cases , driver=self.driver)
+        results = aggregator.aggregate_test_cases(
+            test_cases=test_cases, driver_type=self.driver_type, connector_type=self.connector_type, credentials=self.credentials)
         total_test_cases = len(results["results"])
         failed_test_cases = results["failed_cases"]
         print(f"Total {total_test_cases} test cases run.")
