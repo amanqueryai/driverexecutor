@@ -1,6 +1,6 @@
-from qai_jamf.connector import JAMFConnector 
-from qai_jamf.driver import JAMFDriver 
-from jamf_test_cases import TEST_CASES as test_cases 
+from qai_datadog.connector import DatadogConnector as PlatformConnector 
+from qai_datadog.driver import DatadogDriver as PlatformDriver 
+from datadog_test_cases import TEST_CASES as test_cases 
 from typing import Any
 from masala.drivers import BaseConnector, BaseDriver
 import os
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     configuration = {
     }
 
-    tr = TestReports(configuration=configuration, connector_type=JAMFConnector, driver_type=JAMFDriver) # type: ignore
+    tr = TestReports(configuration=configuration, connector_type=PlatformConnector, driver_type=PlatformDriver) # type: ignore
     tr.get_reports()
 
 print("##### THE END ######")
