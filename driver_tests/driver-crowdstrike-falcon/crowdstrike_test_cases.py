@@ -2,7 +2,7 @@
 from qailib.search import S
 from typing import Any
 from qai_ocsf_schema.classes import SecurityFinding  
-from qai_ocsf_schema.objects import User, Device 
+from qai_ocsf_schema.objects import User, Device, Observable, Group
 import datetime
 import os
 import sys
@@ -12,11 +12,7 @@ parent = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 parent_parent = os.path.dirname(parent)
 sys.path.append(parent_parent)
 
-time_range_filter = S(time__gte=datetime.datetime(2024, 2, 24, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)) & S(
-    time__lte=datetime.datetime(
-        2024, 2, 25, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)
-)
-time_range_filter_process_activity = S(time__gte=datetime.datetime(2023, 9, 1, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)) & S(
+time_range_filter = S(time__gte=datetime.datetime(2023, 9, 1, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)) & S(
     time__lte=datetime.datetime(
         2024, 3, 20, 7, 55, 21, 260000, tzinfo=datetime.timezone.utc)
 )
@@ -24,6 +20,34 @@ time_range_filter_process_activity = S(time__gte=datetime.datetime(2023, 9, 1, 7
 TEST_CASES: dict[str, dict[str, Any]] = {
 
     # User based searches 
+    "00000": {
+        "filter": S(email_addr__startswith="neal"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": User,
+        "followups": {
+            "followup_filter": S(),
+            "type": Group,
+            "relationship": "groups",
+        },
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "000001": {
+        "filter": S(),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {
+            "followup_filter": S(type_id__exact=Observable.TypeId.IP_ADDRESS) & S(value__exact="54.219.164.56"),
+            "type": Observable,
+            "relationship": "observables",
+        },
+        "show_results": True,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
     "000": {
         "filter": S(), 
         "time_range_filter": S(),
@@ -100,7 +124,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "expected": True,
         "entity": User,
         "followups": {},
-        "show_results": False,
+        "show_results": True,
         "query_generator_callback": translate_search,
         "callback_params": {},
     },
@@ -435,7 +459,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False,
         "query_generator_callback": translate_search,
         "callback_params": {},
-    }, 
+    },
     
     
     # Device based searches
@@ -589,5 +613,288 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False,
         "query_generator_callback": translate_search,
         "callback_params": {},
-    }, 
+    },
+
+    # Random attribute 
+    "056": {
+        "filter": S(mac__exact='bc-d0-74-89-0f-46'), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "057": {
+        "filter": S(mac__contains='bc'), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "058": {
+        "filter": S(mac__istartswith='BC'), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "059": {
+        "filter": S(mac__startswith='BC'), 
+        "time_range_filter": S(),
+        "expected": False,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "060": {
+        "filter": S(mac__endswith='68'), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "061": {
+        "filter": S(ip__exact='192.168.86.248'), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "062": {
+        "filter": S(hostname__contains="JonathansLaptop") | S(hostname__exact="blake-work"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "063": {
+        "filter": S(name__iexact="NEAL@query.ai") | S(email_addr__exact="kyle@query.ai"),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": User,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "064": {
+        "filter": S(hostname__contains="JonathansLaptop"),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+
+
+    # Security Finding based  
+    "065": {
+        "filter": S(),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "066": {
+        "filter": S(confidence_id__exact=3),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "067": {
+        "filter": S(confidence_id__exact=1),
+        "time_range_filter": time_range_filter,
+        "expected": False,
+        "entity": SecurityFinding,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "068": {
+        "filter": S(),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {
+            "followup_filter": S(type_id__exact=Observable.TypeId.IP_ADDRESS) & S(value__exact="54.219.164.56"),
+            "type": Observable,
+            "relationship": "observables",
+        },
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "069": {
+        "filter": S(),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {
+            "followup_filter": S(type_id__exact=Observable.TypeId.HOSTNAME) & S(value__exact="elk.sesandbox.query.ai"),
+            "type": Observable,
+            "relationship": "observables",
+        },
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "070": {
+        "filter": S(),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {
+            "followup_filter": S(type_id__exact=Observable.TypeId.HASH) & S(value__exact='2c336c63e26881d2f02f34379024e7c314bce572c08cbaa319bacbbec29f93ed'),
+            "type": Observable,
+            "relationship": "observables",
+        },
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "071": {
+        "filter": S(),
+        "time_range_filter": time_range_filter,
+        "expected": True,
+        "entity": SecurityFinding,
+        "followups": {
+            "followup_filter": S(type_id__exact=Observable.TypeId.HASH) & S(value__exact='2c336c63e26881d2f02f34379024e7c314bce572c08cbaa319bacbbec29f93ed') | 
+                                S(type_id__exact=Observable.TypeId.IP_ADDRESS) & S(value__exact="54.219.164.56"),
+            "type": Observable,
+            "relationship": "observables",
+        },
+        "show_results": True,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "072": {
+        "filter": S(hostname__icontains="jonathanslaptop") | S(hostname__exact="blake-work"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "073": {
+        "filter": S(hostname__istartswith="JON") | S(hostname__exact="blake-work"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "074": {
+        "filter": S(hostname__iendswith="LAPTOP") | S(hostname__exact="blake-work"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "075": {
+        "filter": S(hostname__iexact="JONATHANSLAPTOP") | S(hostname__exact="blake-work"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    
+    "076": {
+        "filter": ~S(hostname__iexact="JONATHANSLAPTOP") & ~S(hostname__exact="blake-work"), 
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "077": {
+        "filter": S(hostname__in={"JonathansLaptop", "blake-work"}),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "078": {
+        "filter": ~S(hostname__in={"JonathansLaptop", "blake-work"}),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "079": {
+        "filter": S(hostname__in={"JonathansLaptop", "blake-work"}) | S(hostname__contains="Davids"),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "080": {
+        "filter": S(S(S(hostname__in={"JonathansLaptop", "blake-work"})) | S(hostname__contains="Davids")),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": False,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
+    "081": {
+        "filter": ~S(hostname__in={"JonathansLaptop", "blake-work"}) & S(hostname__contains="Davids"),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": Device,
+        "followups": {},
+        "show_results": True,
+        "query_generator_callback": translate_search,
+        "callback_params": {},
+    },
 } 

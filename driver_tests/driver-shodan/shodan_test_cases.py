@@ -53,7 +53,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "expected": True,
         "entity": IpIntelligence,
         "followups": {},
-        "show_results": False,
+        "show_results": True,
     },
     "004": {
         "filter": S(ip__exact="8.8.8.8") | S(ip__exact="1.1.1.1"), 
@@ -85,7 +85,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "expected": True,
         "entity": IpIntelligence,
         "followups": {},
-        "show_results": True,
+        "show_results": False,
     },
     "008": {
         "filter": S(ip__iexact="2607:f8b0:4001:c17::65"), 
@@ -93,6 +93,6 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "expected": True,
         "entity": IpIntelligence,
         "followups": {},
-        "show_results": True,
+        "show_results": False,
     },
 } 
