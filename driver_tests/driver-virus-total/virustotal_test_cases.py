@@ -228,7 +228,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "show_results": False,
     },
     "022": {
-        "filter": S(type_id__exact=ThreatIntelligence.TypeId.DOMAIN) & S(value__exact="amazon.com"),
+        "filter": S(type_id__exact=ThreatIntelligence.TypeId.DOMAIN) & S(value__in={"amazon.com", "google.com"}),
         "time_range_filter": S(),
         "expected": True,
         "entity": ThreatIntelligence,
@@ -280,6 +280,14 @@ TEST_CASES: dict[str, dict[str, Any]] = {
         "time_range_filter": S(),
         "expected": False,
         "entity": Url,
+        "followups": {},
+        "show_results": False,
+    },
+    "029": {
+        "filter": S(type_id__exact=ThreatIntelligence.TypeId.DOMAIN) & S(value__iexact="amazon.com") | S(type_id__exact=ThreatIntelligence.TypeId.DOMAIN) & S(value__iexact="microsoft.com"),
+        "time_range_filter": S(),
+        "expected": True,
+        "entity": ThreatIntelligence,
         "followups": {},
         "show_results": True,
     },

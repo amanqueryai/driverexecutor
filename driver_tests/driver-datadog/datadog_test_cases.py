@@ -36,7 +36,7 @@ TEST_CASES: dict[str, dict[str, Any]] = {
             "type": Observable,
             "relationship": "observables",
         },
-        "show_results": False,
+        "show_results": True,
         "query_generator_callback": translate_observable_search,
         "callback_params":  {},
     },
